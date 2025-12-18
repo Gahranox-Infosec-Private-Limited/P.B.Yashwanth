@@ -1,0 +1,145 @@
+<div class="coming-soon-container">
+  <div class="content-wrapper">
+    <!-- Header Section -->
+    <div class="header-section">
+      <div class="logo">
+        <i class="fas fa-rocket"></i>
+        <span>RASEED</span>
+      </div>
+      <div class="premium-badge">
+        <i class="fas fa-crown"></i>
+        Premium
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="feature-icon">
+        <i class="fas fa-gem"></i>
+      </div>
+      
+      <h1 class="title">Coming Soon</h1>
+      
+      <div class="feature-name">
+        {{ featureName }}
+      </div>
+      
+      <p class="subtitle">
+        We're working hard to bring you something amazing! This premium feature will revolutionize your billing experience with advanced capabilities and intelligent insights.
+      </p>
+
+      <!-- Countdown Timer -->
+      <div class="countdown-section">
+        <h3>Launching In</h3>
+        <div class="countdown-timer">
+          <div class="countdown-item">
+            <span class="countdown-number">{{countdown.days || '00'}}</span>
+            <span class="countdown-label">Days</span>
+          </div>
+          <div class="countdown-separator">:</div>
+          <div class="countdown-item">
+            <span class="countdown-number">{{countdown.hours || '00'}}</span>
+            <span class="countdown-label">Hours</span>
+          </div>
+          <div class="countdown-separator">:</div>
+          <div class="countdown-item">
+            <span class="countdown-number">{{countdown.minutes || '00'}}</span>
+            <span class="countdown-label">Minutes</span>
+          </div>
+          <div class="countdown-separator">:</div>
+          <div class="countdown-item">
+            <span class="countdown-number">{{countdown.seconds || '00'}}</span>
+            <span class="countdown-label">Seconds</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Email Subscription Form -->
+      <form [formGroup]="comingSoonForm" (ngSubmit)="onSubmit()" class="subscription-form">
+        <h3>Get Notified When We Launch</h3>
+        <div class="form-group">
+          <div class="input-container">
+            <input 
+              type="email" 
+              formControlName="email" 
+              placeholder="Enter your email address" 
+              class="email-input"
+              [class.error]="email?.invalid && email?.touched"
+            >
+            <button 
+              type="submit" 
+              class="subscribe-btn"
+              [disabled]="!comingSoonForm.valid"
+            >
+              <i class="fas fa-paper-plane"></i>
+              Notify Me
+            </button>
+          </div>
+          <div *ngIf="email?.invalid && email?.touched" class="error-message">
+            <span *ngIf="email?.errors?.['required']">Email is required</span>
+            <span *ngIf="email?.errors?.['email']">Please enter a valid email address</span>
+          </div>
+        </div>
+      </form>
+
+      <!-- Features Preview -->
+      <div class="features-preview">
+        <h3>What to Expect</h3>
+        <div class="features-grid">
+          <div class="feature-preview">
+            <div class="preview-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h4>Advanced Analytics</h4>
+            <p>Deep insights into your business performance with interactive dashboards</p>
+          </div>
+          
+          <div class="feature-preview">
+            <div class="preview-icon">
+              <i class="fas fa-robot"></i>
+            </div>
+            <h4>AI-Powered Insights</h4>
+            <p>Smart recommendations and predictive analysis for your business</p>
+          </div>
+          
+          <div class="feature-preview">
+            <div class="preview-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <h4>Automated Workflows</h4>
+            <p>Streamline your billing processes with intelligent automation</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Social Links -->
+      <div class="social-section">
+        <p>Follow us for updates</p>
+        <div class="social-links">
+          <a href="#" class="social-link" title="Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="social-link" title="LinkedIn">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="#" class="social-link" title="Facebook">
+            <i class="fab fa-facebook"></i>
+          </a>
+          <a href="#" class="social-link" title="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>&copy; 2024 RASEED Technologies. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</div>

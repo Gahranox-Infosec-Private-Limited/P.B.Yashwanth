@@ -1,0 +1,368 @@
+<div class="billing-flow-container">
+  <!-- Compact Notification Toast -->
+  <div class="notification-toast" [class.show]="showNotification" [class.success]="notificationType === 'success'">
+    <div class="toast-content">
+      <i class="fas fa-check-circle toast-icon"></i>
+      <span class="toast-message">{{ notificationMessage }}</span>
+    </div>
+    <button class="toast-close" (click)="hideNotification()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- Main Content Layout -->
+  <div class="main-content">
+    <!-- Flow Steps -->
+    <div class="flow-steps">
+      <!-- Step 1: Add Items -->
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-badge">1</div>
+          <div class="step-info">
+            <h3>Add Items to Bill</h3>
+            <p>Start by adding items to your billing list</p>
+          </div>
+        </div>
+
+        <div class="step-content">
+          <div class="input-group">
+            <input type="text" 
+                   [(ngModel)]="newItemName" 
+                   (keyup.enter)="addItem()"
+                   placeholder="Enter item name (e.g., Laptop, Mouse, Keyboard)..."
+                   class="item-input">
+            <button class="btn-primary" (click)="addItem()" [disabled]="!newItemName.trim()">
+              <i class="fas fa-plus"></i>
+              Add Item
+            </button>
+          </div>
+
+          <!-- Items List -->
+          <div class="items-list" *ngIf="items.length > 0">
+            <h4>Added Items ({{ items.length }})</h4>
+            <div class="items-grid">
+              <div class="item-card" *ngFor="let item of items; let i = index">
+                <div class="item-info">
+                  <span class="item-name">{{ item.name }}</span>
+                  <span class="item-details" *ngIf="item.price > 0">
+                    {{ item.quantity }} × ₹{{ item.price }} = ₹{{ (item.quantity * item.price).toFixed(2) }}
+                  </span>
+                  <span class="item-incomplete" *ngIf="item.price === 0">
+                    Click to add details
+                  </span>
+                </div>
+                <div class="item-actions">
+                  <button class="icon-btn" (click)="editItemDetails(item)" title="Edit Item">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="icon-btn delete" (click)="removeItem(i)" title="Remove Item">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Slip Selection -->
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-badge">2</div>
+          <div class="step-info">
+            <h3>Select Slip Type</h3>
+            <p>Choose the appropriate billing slip</p>
+          </div>
+          <div class="step-status" *ngIf="selectedSlip">
+            <i class="fas fa-check-circle"></i>
+            Selected
+          </div>
+        </div>
+
+        <div class="step-content">
+          <div class="slip-options">
+            <div *ngFor="let slip of slipTypes" 
+                 class="slip-option" 
+                 [class.selected]="selectedSlip === slip"
+                 (click)="selectSlip(slip)">
+              <div class="slip-icon">
+                <i [class]="getSlipIcon(slip)"></i>
+              </div>
+              <div class="slip-info">
+                <h4>{{ slip }}</h4>
+                <p>{{ getSlipDescription(slip) }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: GST Selection -->
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-badge">3</div>
+          <div class="step-info">
+            <h3>Apply GST</h3>
+            <p>Configure GST settings for your bill</p>
+          </div>
+          <div class="step-status" *ngIf="applyGST && gstPercentage > 0">
+            <i class="fas fa-check-circle"></i>
+            GST {{ gstPercentage }}% Applied
+          </div>
+        </div>
+
+        <div class="step-content">
+          <div class="gst-section">
+            <div class="gst-toggle">
+              <label class="toggle-container">
+                <input type="checkbox" [(ngModel)]="applyGST" (change)="onGSTToggle()">
+                <span class="toggle-slider"></span>
+                <span class="toggle-label">Apply GST to bill</span>
+              </label>
+            </div>
+
+            <div class="gst-input-section" *ngIf="applyGST">
+              <div class="gst-input-group">
+                <label for="gstPercentage" class="gst-label">Enter GST Percentage:</label>
+                <div class="gst-input-container">
+                  <input 
+                    type="number" 
+                    id="gstPercentage"
+                    [(ngModel)]="gstPercentage" 
+                    (input)="onGSTPercentageChange()"
+                    min="0"
+                    max="100"
+                    step="0.01"
+                    placeholder="0.00"
+                    class="gst-percentage-input"
+                  >
+                  <span class="percentage-symbol">%</span>
+                </div>
+                <div class="gst-presets" *ngIf="gstPercentage === 0">
+                  <span>Common rates:</span>
+                  <div class="preset-buttons">
+                    <button *ngFor="let rate of commonGSTRates" 
+                            class="preset-btn"
+                            (click)="setGSTPercentage(rate)">
+                      {{ rate }}%
+                    </button>
+                  </div>
+                </div>
+                
+                <!-- GST Calculation Preview -->
+                <div class="gst-preview" *ngIf="gstPercentage > 0 && calculateSubtotal() > 0">
+                  <div class="preview-item">
+                    <span>Subtotal:</span>
+                    <span>₹{{ calculateSubtotal().toFixed(2) }}</span>
+                  </div>
+                  <div class="preview-item">
+                    <span>GST ({{ gstPercentage }}%):</span>
+                    <span>₹{{ calculateGSTAmount().toFixed(2) }}</span>
+                  </div>
+                  <div class="preview-item total">
+                    <span>Total with GST:</span>
+                    <span>₹{{ calculateTotal().toFixed(2) }}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <button class="btn-outline add-details-btn" (click)="openItemDetails()">
+                <i class="fas fa-edit"></i>
+                Add Item Details
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Item Details -->
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-badge">4</div>
+          <div class="step-info">
+            <h3>Item Details</h3>
+            <p>Add detailed information for your items</p>
+          </div>
+        </div>
+
+        <div class="step-content">
+          <div class="details-prompt">
+            <p>Ready to add detailed information for your {{ items.length }} items?</p>
+            <button class="btn-primary" (click)="openItemDetails()">
+              <i class="fas fa-list-alt"></i>
+              Add Item Details
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 5: Premium Features -->
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-badge">5</div>
+          <div class="step-info">
+            <h3>Advanced Features</h3>
+            <p>Explore upcoming RASEED Premium capabilities</p>
+          </div>
+        </div>
+
+        <div class="step-content">
+          <div class="features-grid">
+            <div class="feature-card" (click)="navigateToComingSoon('Advanced Reports')">
+              <div class="feature-icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <div class="feature-content">
+                <h4>Advanced Reports</h4>
+                <p>Detailed analytics and business insights</p>
+                <span class="premium-badge">Premium</span>
+              </div>
+            </div>
+
+            <div class="feature-card" (click)="navigateToComingSoon('Smart Analytics')">
+              <div class="feature-icon">
+                <i class="fas fa-robot"></i>
+              </div>
+              <div class="feature-content">
+                <h4>Smart Analytics</h4>
+                <p>AI-powered predictive analysis</p>
+                <span class="premium-badge">Premium</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beta Options Section -->
+      <div class="step-card beta-options">
+        <h3>Choose Additional Options (Beta)</h3>
+        <p>Coming Soon Features — Select to preview</p>
+        
+        <div class="radio-options">
+          <div class="radio-option" (click)="navigateToComingSoon('Advanced Billing Mode')">
+            <input type="radio" id="advanced-billing-radio" name="beta-option">
+            <div class="radio-content">
+              <h4>Advanced Billing Mode</h4>
+              <p>Enhanced analytics and bulk operations (Coming Soon)</p>
+            </div>
+          </div>
+          
+          <div class="radio-option" (click)="navigateToComingSoon('Bulk Operations')">
+            <input type="radio" id="bulk-operations-radio" name="beta-option">
+            <div class="radio-content">
+              <h4>Bulk Operations</h4>
+              <p>Process multiple bills simultaneously (Coming Soon)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Summary Section -->
+    <div class="summary-section">
+      <div class="summary-card">
+        <div class="summary-header">
+          <h3>Bill Summary</h3>
+          <div class="bill-info">
+            <div class="bill-number">{{ billNumber }}</div>
+            <div class="bill-date">{{ currentDate }}</div>
+          </div>
+        </div>
+
+        <div class="summary-content">
+          <div class="summary-row">
+            <span>Number of Items:</span>
+            <span class="summary-value">{{ items.length }}</span>
+          </div>
+          
+          <div class="summary-row">
+            <span>Subtotal:</span>
+            <span class="summary-value">₹{{ calculateSubtotal().toFixed(2) }}</span>
+          </div>
+          
+          <div class="summary-row" *ngIf="applyGST && gstPercentage > 0">
+            <span>Applied GST:</span>
+            <span class="summary-value">{{ gstPercentage }}%</span>
+          </div>
+          
+          <div class="summary-row total">
+            <span>Final Amount:</span>
+            <span class="summary-value">₹{{ calculateTotal().toFixed(2) }}</span>
+          </div>
+          
+          <div class="summary-row final">
+            <span>Grand Total:</span>
+            <span class="summary-value">₹{{ calculateTotal().toFixed(2) }}</span>
+          </div>
+        </div>
+
+        <div class="customer-section">
+          <div class="input-group">
+            <label for="customer-name">Customer Name (Optional)</label>
+            <input type="text" id="customer-name" [(ngModel)]="customerName" class="input-field" placeholder="Enter customer name">
+          </div>
+        </div>
+
+        <div class="summary-actions">
+          <button class="btn btn-success" (click)="generatePDF()">
+            <i class="fas fa-file-pdf"></i>
+            Print Bill (PDF)
+          </button>
+          <button class="btn btn-primary" (click)="saveBill()">
+            <i class="fas fa-save"></i>
+            Save Bill
+          </button>
+          <button class="btn btn-outline" (click)="newBill()">
+            <i class="fas fa-plus"></i>
+            New Bill
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Item Details Modal -->
+<div class="modal-overlay" *ngIf="showItemModal">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h3>Add Item Details</h3>
+      <button class="close-btn" (click)="closeItemModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="modal-content">
+      <div class="form-group">
+        <label>Product Name</label>
+        <input type="text" [(ngModel)]="currentEditingItem.name" class="form-input">
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label>Quantity</label>
+          <input type="number" [(ngModel)]="currentEditingItem.quantity" min="1" class="form-input">
+        </div>
+        <div class="form-group">
+          <label>Unit Price (₹)</label>
+          <input type="number" [(ngModel)]="currentEditingItem.price" min="0" step="0.01" class="form-input">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>Manager (Optional)</label>
+        <input type="text" [(ngModel)]="currentEditingItem.manager" class="form-input" placeholder="Enter manager name">
+      </div>
+    </div>
+    
+    <div class="modal-actions">
+      <button class="btn-outline" (click)="closeItemModal()">Cancel</button>
+      <button class="btn-primary" (click)="saveItemDetails()">Save Item</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden element for PDF generation -->
+<div id="bill-summary-content" style="display: none;">
+  <!-- This will be populated dynamically for PDF generation -->
+</div>

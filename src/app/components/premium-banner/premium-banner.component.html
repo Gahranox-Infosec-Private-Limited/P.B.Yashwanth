@@ -1,0 +1,40 @@
+<!-- Premium Banner Modal -->
+<div class="premium-banner-overlay" *ngIf="showModal">
+  <div class="premium-banner glass-card slide-down">
+    <!-- Premium Badge -->
+    <div class="premium-badge">
+      <i class="fas fa-crown"></i>
+      PREMIUM
+    </div>
+    
+    <div class="banner-content">
+      <!-- Main Banner Text -->
+      <div class="banner-main">
+        <i class="fas fa-gem diamond-icon"></i>
+        <div class="banner-text">
+          <h3>Upgrade to RASEED Premium</h3>
+          <p>Unlock Advanced Analytics, Auto-GST Calculations & AI-Powered Reports!</p>
+        </div>
+      </div>
+
+      <!-- Feature Highlights -->
+      <div class="feature-highlights">
+        <div class="feature-item" *ngFor="let feature of features" (click)="onFeatureClick(feature)">
+          <i [class]="feature.icon" class="feature-icon"></i>
+          <span class="feature-text">{{ feature.text }}</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button class="btn-primary" (click)="keepPremium()">
+          <i class="fas fa-rocket"></i>
+          Explore Premium
+        </button>
+        <button class="btn-secondary" (click)="closeBanner()">
+          Maybe Later
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

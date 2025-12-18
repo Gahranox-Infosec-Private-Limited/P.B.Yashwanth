@@ -1,0 +1,98 @@
+<div class="coming-soon-container">
+  <!-- Background Animation -->
+  <div class="background-animation">
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+  </div>
+
+  <div class="coming-soon-content glass-card">
+    <!-- Main Header -->
+    <div class="main-header">
+      <div class="construction-icon">🚧</div>
+      <h1 class="title shimmer">Coming Soon!</h1>
+      <p class="subtitle">
+        Exciting new features are under development for <span class="raseed-highlight">RASEED Premium</span>
+      </p>
+    </div>
+
+    <!-- Features Grid -->
+    <div class="features-section">
+      <h2 class="section-title">What's Coming in RASEED v2.0</h2>
+      
+      <div class="features-grid">
+        <div class="feature-card" *ngFor="let feature of features">
+          <div class="feature-header">
+            <div class="feature-icon">{{ feature.icon }}</div>
+            <div class="feature-info">
+              <h3 class="feature-title">{{ feature.title }}</h3>
+              <span class="eta-tag">{{ feature.eta }}</span>
+            </div>
+          </div>
+          
+          <p class="feature-description">{{ feature.description }}</p>
+          
+          <!-- Progress Bar -->
+          <div class="progress-section">
+            <div class="progress-info">
+              <span class="progress-text">Development Progress</span>
+              <span class="progress-percent">{{ feature.progress }}%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" 
+                   [style.width]="getProgressWidth(feature.progress)"
+                   [style.background]="getProgressColor(feature.progress)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Current Features Reminder -->
+    <div class="current-features">
+      <h3 class="section-title">Meanwhile in RASEED v1.0...</h3>
+      <div class="current-features-grid">
+        <div class="current-feature">
+          <span class="material-icons">check_circle</span>
+          <span>Flow-Based Billing</span>
+        </div>
+        <div class="current-feature">
+          <span class="material-icons">check_circle</span>
+          <span>Smart GST Calculation</span>
+        </div>
+        <div class="current-feature">
+          <span class="material-icons">check_circle</span>
+          <span>Professional Summary</span>
+        </div>
+        <div class="current-feature">
+          <span class="material-icons">check_circle</span>
+          <span>Item Management</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="cta-section">
+      <div class="cta-content">
+        <h3>Ready for the future of billing?</h3>
+        <p>Be the first to know when these features launch!</p>
+        <div class="cta-actions">
+          <button class="btn-primary back-btn" (click)="backToBilling()">
+            <span class="material-icons">arrow_back</span>
+            Back to Billing
+          </button>
+          <button class="btn-outline notify-btn">
+            <span class="material-icons">notifications</span>
+            Notify Me
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Version Footer -->
+    <div class="version-footer">
+      <span class="version-text">RASEED v1.0 · Building the future of billing</span>
+    </div>
+  </div>
+</div>

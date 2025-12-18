@@ -1,0 +1,367 @@
+.item-details-modal {
+  width: 100%;
+  max-width: 500px;
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  animation: modalAppear 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Modal Header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: linear-gradient(45deg, var(--primary), var(--primary-light));
+  color: white;
+}
+
+.modal-header h2 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+/* Modal Body */
+.modal-body {
+  padding: 2rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--dark);
+  font-size: 0.9rem;
+}
+
+.form-group label .material-icons {
+  font-size: 1.1rem;
+  color: var(--primary);
+}
+
+.form-input, .form-select {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--glass-border);
+  border-radius: var(--border-radius);
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.form-input:focus, .form-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(74, 58, 255, 0.1);
+}
+
+.char-count {
+  text-align: right;
+  font-size: 0.75rem;
+  color: var(--gray);
+  margin-top: 0.25rem;
+}
+
+/* Form Row for Quantity & Price */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Quantity Controls */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-btn:hover:not(:disabled) {
+  background: var(--primary-dark);
+  transform: scale(1.1);
+}
+
+.quantity-btn:disabled {
+  background: var(--gray-light);
+  color: var(--gray);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.quantity-input {
+  width: 80px;
+  text-align: center;
+  padding: 0.5rem;
+  border: 2px solid var(--glass-border);
+  border-radius: var(--border-radius);
+  background: white;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Price Input */
+.price-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.currency-symbol {
+  position: absolute;
+  left: 1rem;
+  color: var(--gray);
+  font-weight: 600;
+  z-index: 1;
+}
+
+.price-input {
+  width: 100%;
+  padding: 1rem 1.25rem 1rem 2.5rem;
+  border: 2px solid var(--glass-border);
+  border-radius: var(--border-radius);
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.price-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(74, 58, 255, 0.1);
+}
+
+/* Preview Card */
+.preview-card {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(74, 58, 255, 0.05);
+  border-radius: var(--border-radius);
+  border-left: 4px solid var(--primary);
+}
+
+.preview-card h4 {
+  margin: 0 0 1rem 0;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.preview-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.preview-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(74, 58, 255, 0.1);
+}
+
+.preview-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.preview-value {
+  font-weight: 500;
+  color: var(--dark);
+}
+
+.preview-value.total {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.preview-value.manager {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.total-preview {
+  border-top: 2px solid rgba(74, 58, 255, 0.2);
+  padding-top: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+/* Modal Footer */
+.modal-footer {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  padding: 1.5rem 2rem;
+  background: rgba(249, 250, 251, 0.8);
+  border-top: 1px solid var(--glass-border);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid var(--gray);
+  color: var(--gray);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-secondary:hover {
+  background: var(--gray);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, var(--primary), var(--primary-light));
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(74, 58, 255, 0.3);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .modal-body {
+    padding: 1.5rem;
+    max-height: 50vh;
+  }
+
+  .modal-header {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .modal-footer {
+    padding: 1.25rem 1.5rem;
+    flex-direction: column;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .preview-card {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .item-details-modal {
+    margin: 1rem;
+  }
+
+  .modal-body {
+    padding: 1rem;
+  }
+
+  .modal-header {
+    padding: 1rem;
+  }
+
+  .modal-header h2 {
+    font-size: 1.1rem;
+  }
+
+  .quantity-controls {
+    justify-content: center;
+  }
+}
+
+/* Scrollbar Styling for Modal */
+.modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}

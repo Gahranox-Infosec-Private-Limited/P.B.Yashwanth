@@ -1,0 +1,123 @@
+/* Professional Banking Color Scheme */
+:root {
+  --primary: #4361ee;
+  --primary-light: #4895ef;
+  --secondary: #3f37c9;
+  --success: #4cc9f0;
+  --dark: #3a0ca3;
+  --light: #f8f9fa;
+  --white: #ffffff;
+  --gray: #6c757d;
+  --dark-gray: #495057;
+  --border: #e9ecef;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --radius: 12px;
+}
+
+body { 
+  font-family: 'Inter', sans-serif; 
+  margin: 0; 
+  padding: 0; 
+  background: linear-gradient(135deg, #f5f7fa 0%, #e3eeff 100%); 
+  min-height: 100vh; 
+}
+
+/* Import Font Awesome for icons */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Global styles for RASEED app */
+* {
+  box-sizing: border-box;
+}
+
+.app-container {
+  min-height: 100vh;
+}
+
+.simple-header {
+  text-align: center;
+  padding: 20px;
+  background: white;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+}
+
+.simple-header h1 {
+  color: var(--primary);
+  margin: 0 0 8px 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.simple-header p {
+  color: var(--gray);
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Premium Banner */
+.premium-banner {
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  color: white;
+  padding: 16px;
+  border-radius: var(--radius);
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 500;
+  box-shadow: var(--shadow);
+  animation: slideDown 1s ease;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Utility classes */
+.text-center { text-align: center; }
+.mt-20 { margin-top: 20px; }
+.mb-20 { margin-bottom: 20px; }
+.hidden { display: none; }
+
+/* Toast notifications */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--primary);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 1001;
+  animation: slideInRight 0.3s ease;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Version Badge */
+.version {
+  background: var(--primary);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+}

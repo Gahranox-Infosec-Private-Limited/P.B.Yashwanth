@@ -1,0 +1,26 @@
+<div class="splash-container" (click)="skipSplash()">
+  <div class="splash-content">
+    <!-- Animated RASEED Logo -->
+    <div class="raseed-logo">
+      <div class="logo-circle">
+        <i class="fas fa-rocket logo-icon"></i>
+      </div>
+      <span class="logo-text">RASEED</span>
+    </div>
+    
+    <!-- Tagline -->
+    <p class="tagline">Professional Billing & GST Management</p>
+    
+    <!-- Animated Loader -->
+    <div class="loader">
+      <div class="loader-spinner"></div>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="progressValue"></div>
+      </div>
+      <span class="loader-text">{{ loadingText }}</span>
+    </div>
+
+    <!-- Version Badge -->
+    <div class="version-badge">{{ version }}</div>
+  </div>
+</div>

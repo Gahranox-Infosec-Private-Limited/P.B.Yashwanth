@@ -1,0 +1,33 @@
+<!-- Splash Screen -->
+<app-splash-screen *ngIf="isLoading"></app-splash-screen>
+
+<!-- Main App -->
+<div class="app-container" *ngIf="!isLoading">
+  <!-- Modern Header -->
+  <header class="modern-header">
+    <div class="header-content">
+      <div class="logo-section">
+        <div class="logo">🧾</div>
+        <div class="brand-info">
+          <h1 class="app-title">RASEED v1.0</h1>
+          <p class="app-tagline">Smart Billing Simplified</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <!-- Add any header buttons/actions here if needed -->
+      </div>
+    </div>
+  </header>
+
+  <!-- Premium Banner - More subtle -->
+  <app-premium-banner 
+    *ngIf="showPremiumBanner"
+    (bannerClosed)="closePremiumBanner()"
+    class="compact-banner">
+  </app-premium-banner>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

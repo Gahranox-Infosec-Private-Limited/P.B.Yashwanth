@@ -1,0 +1,133 @@
+<div class="item-details-modal glass-card">
+  <!-- Modal Header -->
+  <div class="modal-header">
+    <h2>
+      <span class="material-icons">inventory_2</span>
+      {{ editedItem.id ? 'Edit Item Details' : 'Add Item Details' }}
+    </h2>
+    <button class="close-btn" (click)="onCancel()" aria-label="Close modal">
+      <span class="material-icons">close</span>
+    </button>
+  </div>
+
+  <!-- Modal Body -->
+  <div class="modal-body">
+    <!-- Product Name -->
+    <div class="form-group">
+      <label for="productName">
+        <span class="material-icons">label</span>
+        Product Name *
+      </label>
+      <input 
+        type="text" 
+        id="productName"
+        [(ngModel)]="editedItem.name"
+        placeholder="Enter product name..."
+        class="form-input"
+        maxlength="100">
+      <div class="char-count">{{ editedItem.name?.length || 0 }}/100</div>
+    </div>
+
+    <!-- Quantity & Price Row -->
+    <div class="form-row">
+      <!-- Quantity -->
+      <div class="form-group">
+        <label for="quantity">
+          <span class="material-icons">format_list_numbered</span>
+          Quantity *
+        </label>
+        <div class="quantity-controls">
+          <button class="quantity-btn" (click)="decrementQuantity()" 
+                  [disabled]="editedItem.quantity <= 1" type="button">
+            <span class="material-icons">remove</span>
+          </button>
+          <input 
+            type="number" 
+            id="quantity"
+            [(ngModel)]="editedItem.quantity"
+            min="1"
+            class="quantity-input"
+            readonly>
+          <button class="quantity-btn" (click)="incrementQuantity()" type="button">
+            <span class="material-icons">add</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Unit Price -->
+      <div class="form-group">
+        <label for="unitPrice">
+          <span class="material-icons">payments</span>
+          Unit Price (₹) *
+        </label>
+        <div class="price-input-container">
+          <span class="currency-symbol">₹</span>
+          <input 
+            type="number" 
+            id="unitPrice"
+            [(ngModel)]="editedItem.price"
+            min="0"
+            step="0.01"
+            placeholder="0.00"
+            class="price-input">
+        </div>
+      </div>
+    </div>
+
+    <!-- Manager Selection -->
+    <div class="form-group">
+      <label for="manager">
+        <span class="material-icons">person</span>
+        Manager
+      </label>
+      <select 
+        id="manager"
+        [(ngModel)]="editedItem.manager"
+        class="form-select">
+        <option value="">-- Select Manager --</option>
+        <option *ngFor="let manager of managers" [value]="manager">
+          {{ manager }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Preview Card -->
+    <div class="preview-card" *ngIf="editedItem.name">
+      <h4>Preview</h4>
+      <div class="preview-content">
+        <div class="preview-row">
+          <span>Product:</span>
+          <span class="preview-value">{{ editedItem.name }}</span>
+        </div>
+        <div class="preview-row">
+          <span>Quantity:</span>
+          <span class="preview-value">{{ editedItem.quantity }}</span>
+        </div>
+        <div class="preview-row">
+          <span>Unit Price:</span>
+          <span class="preview-value">₹{{ editedItem.price | number:'1.2-2' }}</span>
+        </div>
+        <div class="preview-row total-preview">
+          <span>Total:</span>
+          <span class="preview-value total">₹{{ calculateTotal() | number:'1.2-2' }}</span>
+        </div>
+        <div class="preview-row" *ngIf="editedItem.manager">
+          <span>Manager:</span>
+          <span class="preview-value manager">{{ editedItem.manager }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Footer -->
+  <div class="modal-footer">
+    <button class="btn-secondary" (click)="onCancel()">
+      <span class="material-icons">cancel</span>
+      Cancel
+    </button>
+    <button class="btn-primary" (click)="onSave()" [disabled]="!isFormValid()">
+      <span class="material-icons">save</span>
+      {{ editedItem.id ? 'Update Item' : 'Save Item' }}
+    </button>
+  </div>
+</div>
